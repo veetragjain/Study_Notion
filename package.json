@@ -1,0 +1,19 @@
+{
+  "name": "study_notion",
+  "version": "1.0.0",
+  "description": "An e-commerce website for courses",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/veetragjain/Study_Notion.git"
+  },
+  "author": "Veetrag Jain",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/veetragjain/Study_Notion/issues"
+  },
+  "homepage": "https://github.com/veetragjain/Study_Notion#readme"
+}
