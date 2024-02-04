@@ -100,19 +100,19 @@ const signup = async (req, res) => {
                 message: "password and confirm password value does not match"
             })
         }
-        // find most resent otp stored for the user 
-        const resentOtp = await Otp.find({ email }).sort({ createdAt: -1 }).limit(1)
-        console.log(`resentOtp : -> ${resentOtp}`);
+        // find most recent otp stored for the user 
+        const recentOtp = await Otp.find({ email }).sort({ createdAt: -1 }).limit(1)
+        console.log(`recentOtp : -> ${recentOtp}`);
         console.log(`${email}`);
 
 
         // validate otp 
-        if (resentOtp.length === 0) {
+        if (recentOtp.length === 0) {
             return res.status(400).json({
                 success: false,
                 message: "otp not found"
             })
-        } else if (otp != resentOtp[0].otp) {
+        } else if (otp != recentOtp[0].otp) {
             return res.status(400).json({
                 success: false,
                 message: "invalid otp"
@@ -195,7 +195,7 @@ const login = async (req, res) => {
             }
             return res.cookie("token", token, options).status(200).json({
                 success: true,
-                message: "login successfully",
+                message: "login successfull",
                 user,
                 token
             })
@@ -214,56 +214,6 @@ const login = async (req, res) => {
     }
 }
 
-// change password
-// const changePassword = async (req, res) => {
-//     try {
-//         // get old password new password and confirm password
-//         const { oldPassword, newPassword, confirmPassword } = req.body
-//         if (!oldPassword || !newPassword) {
-//             return res.status(403).json({
-//                 success: false,
-//                 message: "please fill all the fields"
-//             })
-//         }
-
-//         // validate
-//         // if (newPassword !== confirmPassword) {
-//         //     return res.status(400).json({
-//         //         success: false,
-//         //         message: "password and confirm password value does not match"
-//         //     })
-//         // }
-
-//         // Check if the old password matches the current password in the database
-//         const user = await User.findOne({ email: req.user.email });
-//         const isOldPasswordValid = await bcrypt.compare(oldPassword, user.password);
-//         if (!isOldPasswordValid) {
-//             return res.status(401).json({
-//                 success: false,
-//                 message: "Old password is incorrect"
-//             });
-//         }
-
-//         // update password in db
-//         hashedPassword = await bcrypt.hash(newPassword, 10)
-//         user.password = hashedPassword
-//         await User.save();
-//         // send mail password updated 
-//         mailSender(user.email, "password updated", "your password changed successfully")
-
-//         // success response
-//         return res.status(200).json({
-//             success: true,
-//             message: "password changed successfully"
-//         })
-//     } catch (err) {
-//         console.log(`not able to change a password ${err}`);
-//         return res.status(400).json({
-//             success: false,
-//             message: err.message
-//         })
-//     }
-// }
 
 const changePassword = async (req, res) => {
     try {
@@ -330,5 +280,6 @@ const changePassword = async (req, res) => {
         })
     }
 }
+
 
 export { sendOtp, signup, login, changePassword };

@@ -27,7 +27,7 @@ const createSubSection = async (req, res) => {
 
         // upload video to cloudinary
         const uploadDetails = await uploadImageToCloudinary(video, process.env.FOLDER_NAME)
-
+        
         // create subSection
         const newSubSection = await SubSection.create({
             title: title,

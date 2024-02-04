@@ -72,7 +72,7 @@ const createCourse = async (req, res) => {
 
         // upload image to cloudinary
         const thumbnailImage = await uploadImageToCloudinary(thumbnail, process.env.FOLDER_NAME)
-
+        console.log(thumbnailImage);
         // create entry of new course
         const newCourse = await Course.create({
             courseName,
@@ -314,7 +314,9 @@ const deleteCourse = async (req, res) => {
         if (!course) {
             return res.status(404).json({ message: "Course not found" })
         }
-
+        const category = await Category.findById(course.category);
+        await Category.findByIdAndUpdate(courseId,{$pull : {course:course.coursesId}})
+        //console.log("deleted xyz");
         // Unenroll students from the course
         // const studentsEnrolled = course.studentsEnrolled
         // for (const studentId of studentsEnrolled) {

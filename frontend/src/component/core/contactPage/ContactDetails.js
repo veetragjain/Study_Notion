@@ -6,7 +6,7 @@ import * as Icon2 from "react-icons/io5"
 const contactDetails = [
     {
         icon: "HiChatBubbleLeftRight",
-        heading: "Chat on us",
+        heading: "Contact us through E-mail",
         description: "Our friendly team is here to help.",
         details: "info@studynotion.com",
     },
@@ -15,13 +15,13 @@ const contactDetails = [
         heading: "Visit us",
         description: "Come and say hello at our office HQ.",
         details:
-            "NIT Silchar, Hostel- 9(A), PIN:788001, State: Assam,India",
+            "Study-Notion, Bengaluru",
     },
     {
         icon: "IoCall",
         heading: "Call us",
         description: "Mon - Fri From 8am to 5pm",
-        details: "(+91)7002526882",
+        details: "(+91)9503660439",
     },
 ]
 

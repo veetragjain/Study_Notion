@@ -33,7 +33,8 @@ async function sendVerificationEmail(email, otp) {
 
 otpSchema.pre("save", async function (next) {
     sendVerificationEmail(this.email, this.otp)
-    next()
+    next();
 })
+
 const Otp = mongoose.model("Otp", otpSchema);
 export default Otp;

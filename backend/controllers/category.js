@@ -39,8 +39,8 @@ const createCategory = async (req, res) => {
 
 const showAllCategory = async (req, res) => {
     try {
-        const allCategory = await Category.find()
-        // console.log(`all category  : - > ${allCategory}`);
+        const allCategory = await Category.find({course:{$exists:true,$ne:[]}})
+        //console.log(`all category  : - > ${allCategory}`);
         return res.status(200).json({
             success: true,
             message: "category fetched successfully",
@@ -48,7 +48,7 @@ const showAllCategory = async (req, res) => {
         })
 
     } catch (err) {
-        console.error(`Failed to fetch category : - > ${err}`);
+        console.error(`Failed to fetch categories : - > ${err}`);
         return res.status(500).json({
             success: false,
             message: "Unable to fetch category. Please try again later."
@@ -61,7 +61,7 @@ const categoryPageDetail = async (req, res) => {
     try {
         // Fetch category id from query parameters
         const categoryId = req.query.categoryId;
-        // console.log("categoryId from query:", categoryId);
+        //console.log("categoryId from query:", category);
 
         // get course for specific category id
         const selectedCategory = await Category.findById(categoryId)
@@ -72,7 +72,7 @@ const categoryPageDetail = async (req, res) => {
                 populate: "instructor",
 
             })
-        // console.log("selected category:", selectedCategory)
+        //console.log("selected category:", selectedCategory)
         // validation
         if (!selectedCategory) {
             return res.status(404).json({
@@ -89,18 +89,21 @@ const categoryPageDetail = async (req, res) => {
             })
         }
 
+
         // get courses for other category
+        let differentCategory = {};
         const categoriesExceptSelected = await Category.find(
             { _id: { $ne: categoryId } }
         )
-        let differentCategory = await Category.findOne(
-            categoriesExceptSelected[getRandomInt(categoriesExceptSelected.length)]
-                ._id
-        ).populate({
-            path: "course",
-            match: { status: "Published" },
-        })
-
+        if(!categoriesExceptSelected){
+            differentCategory = await Category.findOne(
+                categoriesExceptSelected[getRandomInt(categoriesExceptSelected.length)]
+                    ._id
+            ).populate({
+                path: "course",
+                match: { status: "Published" },
+            })
+        }
         // top-selling courses across all categories
         const allCategories = await Category.find()
             .populate({
